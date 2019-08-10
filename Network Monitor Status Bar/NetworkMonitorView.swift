@@ -21,8 +21,8 @@ class NetworkMonitorView: NSView {
         super.draw(dirtyRect)
         
         // RECTs we will be drawing in
-        let rectBytesIn = NSMakeRect(2, 11, 56, 11)
-        let rectBytesOut = NSMakeRect(2, 1, 56, 11)
+        let rectBytesIn = NSMakeRect(2, 1, 56, 11)
+        let rectBytesOut = NSMakeRect(2, 11, 56, 11)
         
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .right
@@ -38,8 +38,8 @@ class NetworkMonitorView: NSView {
         ]
         
         // Get human readable speed
-        let bytesInReadable:NSString = asHumanReadableSpeed(bytes: bytesIn) as NSString
-        let bytesOutReadable:NSString = asHumanReadableSpeed(bytes: bytesOut) as NSString
+        let bytesInReadable:NSString = "↓" + asHumanReadableSpeed(bytes: bytesIn) as NSString
+        let bytesOutReadable:NSString = "↑" + asHumanReadableSpeed(bytes: bytesOut) as NSString
         
         // Finally, draw!
         bytesInReadable.draw(in: rectBytesIn, withAttributes: fontAttributes)
@@ -52,22 +52,22 @@ class NetworkMonitorView: NSView {
     /// - Parameter bytes: String
     /// - Returns: String - human readable transfer speed
     private func asHumanReadableSpeed(bytes: String) -> String {
-        var readableString = "0 kb/s"
+        var readableString = "0 K/s"
         let iBytes:Double = Double(bytes)!
         
         // Less than a kilobyte / s
         if (iBytes < kilobyte) {
-            readableString = "0 kb/s"
+            readableString = "0 K/s"
         }
         // Less than a megabyte / s
         else if (iBytes < megabyte) {
-            readableString = String(format: "%.1f", iBytes / kilobyte) + " kb/s"
+            readableString = String(format: "%.1f", iBytes / kilobyte) + " K/s"
         }
         else if (iBytes < gigabyte) {
-            readableString = String(format: "%.1f", iBytes / megabyte) + " mb/s"
+            readableString = String(format: "%.1f", iBytes / megabyte) + " M/s"
         }
         else {
-            readableString = String(format: "%.1f", iBytes / gigabyte) + " gb/s"
+            readableString = String(format: "%.1f", iBytes / gigabyte) + " G/s"
         }
         
         return readableString
